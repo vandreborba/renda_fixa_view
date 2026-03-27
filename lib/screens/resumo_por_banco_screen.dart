@@ -44,16 +44,6 @@ class ResumoPorBancoScreen extends ConsumerWidget {
               ),
             ),
 
-            // ==================== LEGENDA DA ESCALA FGC ====================
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                child: _LegendaFgc(temaTexto: temaTexto),
-              ),
-            ),
-
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
-
             // ==================== LISTA DE BANCOS ====================
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -70,6 +60,22 @@ class ResumoPorBancoScreen extends ConsumerWidget {
                     ),
                   );
                 },
+              ),
+            ),
+
+            // ==================== LEGENDA DA ESCALA FGC ====================
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                child: _LegendaFgc(temaTexto: temaTexto),
+              ),
+            ),
+
+            // ==================== AVISO TETO GLOBAL FGC ====================
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                child: _AvisoTetoGlobalFgc(temaTexto: temaTexto),
               ),
             ),
 
@@ -196,6 +202,42 @@ class _LegendaFgc extends StatelessWidget {
   }
 }
 
+// ==================== AVISO TETO GLOBAL FGC ====================
+
+/// Nota discreta lembrando que o FGC tem um teto global de R$ 1M por CPF
+/// em um período móvel de 4 anos — a proteção não escala indefinidamente.
+class _AvisoTetoGlobalFgc extends StatelessWidget {
+  final TextTheme temaTexto;
+
+  const _AvisoTetoGlobalFgc({required this.temaTexto});
+
+  @override
+  Widget build(BuildContext context) {
+    final corMutada = Theme.of(
+      context,
+    ).colorScheme.onSurface.withValues(alpha: 0.4);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(MdiIcons.alertCircleOutline, size: 13, color: corMutada),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Text(
+            'Atenção: o FGC possui teto global de '
+            '${Formatadores.moeda(ParametrosGerais.limiteFgcGlobal)} por CPF '
+            'em período móvel de 4 anos — ter mais de R\$ 1M distribuído em '
+            'várias instituições não garante cobertura integral.',
+            style: temaTexto.bodySmall?.copyWith(
+              color: corMutada,
+              fontSize: 11,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 // ==================== ESTADO VAZIO ====================
 
 /// Exibido quando não há dados carregados — não deveria aparecer
@@ -280,7 +322,9 @@ class _DetalhesBancoSheetState extends State<_DetalhesBancoSheet> {
         });
       case _OrdenacaoDetalhe.valor:
         // Maior valor primeiro
-        lista.sort((a, b) => (b.posicao as double).compareTo(a.posicao as double));
+        lista.sort(
+          (a, b) => (b.posicao as double).compareTo(a.posicao as double),
+        );
       case _OrdenacaoDetalhe.original:
         break; // mantém a ordem original
     }
@@ -447,11 +491,12 @@ class _ItemInvestimento extends StatelessWidget {
     final diasRestantes = _calcularDiasParaVencimento(
       investimento.dataVencimento?.toString(),
     );
-    final temVencimento = investimento.dataVencimento != null &&
+    final temVencimento =
+        investimento.dataVencimento != null &&
         investimento.dataVencimento.toString().isNotEmpty;
-    final temDetalhesExtras = investimento.valorAplicado != null ||
-        (investimento.taxa != null &&
-            investimento.taxa.toString().isNotEmpty);
+    final temDetalhesExtras =
+        investimento.valorAplicado != null ||
+        (investimento.taxa != null && investimento.taxa.toString().isNotEmpty);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
@@ -549,8 +594,9 @@ class _ItemInvestimento extends StatelessWidget {
                           Text(
                             'Aplicado',
                             style: temaTexto.labelSmall?.copyWith(
-                              color: esquemaCores.onSurface
-                                  .withValues(alpha: 0.55),
+                              color: esquemaCores.onSurface.withValues(
+                                alpha: 0.55,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -574,8 +620,9 @@ class _ItemInvestimento extends StatelessWidget {
                           Text(
                             'Taxa',
                             style: temaTexto.labelSmall?.copyWith(
-                              color: esquemaCores.onSurface
-                                  .withValues(alpha: 0.55),
+                              color: esquemaCores.onSurface.withValues(
+                                alpha: 0.55,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -659,7 +706,6 @@ class _BadgeDiasRestantes extends StatelessWidget {
     );
   }
 }
-
 
 class _BadgeTipo extends StatelessWidget {
   final String tipo;

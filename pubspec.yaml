@@ -47,6 +47,9 @@ dependencies:
   # Formatação de moedas e datas em português
   intl: ^0.20.2
 
+  # Abertura de URLs externas (GitHub etc.)
+  url_launcher: ^6.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

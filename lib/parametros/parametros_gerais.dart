@@ -13,6 +13,11 @@ class ParametrosGerais {
   /// O FGC cobre CDB, LCI, LCA, LC e similares até esse valor.
   static const double limiteFgc = 250000.0;
 
+  /// Teto global do FGC por CPF: R$ 1.000.000,00 em um período móvel de 4 anos.
+  /// Mesmo distribuindo entre várias instituições, a cobertura total não excede
+  /// esse valor — ou seja, ter mais de R$ 1M no total não garante proteção plena.
+  static const double limiteFgcGlobal = 1000000.0;
+
   /// Percentual a partir do qual a cor começa a mudar (zona de atenção).
   /// Corresponde a R$ 200.000,00 (80% do limite).
   static const double percentualZonaAtencao = 0.80;

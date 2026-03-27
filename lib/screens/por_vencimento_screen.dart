@@ -31,10 +31,12 @@ class PorVencimentoScreen extends ConsumerWidget {
     final agora = DateTime.now();
     final em12Meses = agora.add(const Duration(days: 365));
     final totalProximos12Meses = grupos
-        .where((g) =>
-            g.mesAno != null &&
-            g.mesAno!.isAfter(agora) &&
-            g.mesAno!.isBefore(em12Meses))
+        .where(
+          (g) =>
+              g.mesAno != null &&
+              g.mesAno!.isAfter(agora) &&
+              g.mesAno!.isBefore(em12Meses),
+        )
         .fold(0.0, (soma, g) => soma + g.totalPosicao);
 
     // Limita largura para monitores ultrawide
@@ -164,16 +166,18 @@ class _CardResumoVencimento extends StatelessWidget {
                   Icon(
                     MdiIcons.calendarAlert,
                     size: 16,
-                    color:
-                        esquemaCores.onPrimaryContainer.withValues(alpha: 0.85),
+                    color: esquemaCores.onPrimaryContainer.withValues(
+                      alpha: 0.85,
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Próx. 12 meses: ${Formatadores.moeda(totalProximos12Meses)}',
                       style: temaTexto.bodySmall?.copyWith(
-                        color: esquemaCores.onPrimaryContainer
-                            .withValues(alpha: 0.85),
+                        color: esquemaCores.onPrimaryContainer.withValues(
+                          alpha: 0.85,
+                        ),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -212,8 +216,7 @@ class _CardGrupoVencimento extends StatelessWidget {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          childrenPadding:
-              const EdgeInsets.fromLTRB(12, 0, 12, 12),
+          childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
           shape: const Border(),
 
           // ==================== ÍCONE LEADING ====================
@@ -278,9 +281,7 @@ class _CardGrupoVencimento extends StatelessWidget {
                 ),
               ),
               Text(
-                grupo.quantidadeInvestimentos == 1
-                    ? 'produto'
-                    : 'produtos',
+                grupo.quantidadeInvestimentos == 1 ? 'produto' : 'produtos',
                 style: temaTexto.labelSmall?.copyWith(
                   color: esquemaCores.onSurface.withValues(alpha: 0.5),
                 ),
@@ -510,8 +511,9 @@ class _ItemVencimento extends StatelessWidget {
                           Text(
                             'Aplicado',
                             style: temaTexto.labelSmall?.copyWith(
-                              color: esquemaCores.onSurface
-                                  .withValues(alpha: 0.55),
+                              color: esquemaCores.onSurface.withValues(
+                                alpha: 0.55,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -533,8 +535,9 @@ class _ItemVencimento extends StatelessWidget {
                           Text(
                             'Taxa',
                             style: temaTexto.labelSmall?.copyWith(
-                              color: esquemaCores.onSurface
-                                  .withValues(alpha: 0.55),
+                              color: esquemaCores.onSurface.withValues(
+                                alpha: 0.55,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -653,20 +656,18 @@ class _EstadoVazioWidget extends StatelessWidget {
           Icon(
             MdiIcons.calendarRemoveOutline,
             size: 64,
-            color: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withValues(alpha: 0.3),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 16),
           Text(
             'Nenhum dado carregado',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.5),
-                ),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
           ),
         ],
       ),
